@@ -4,6 +4,7 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 command! AlphaHelloWorld lua require("test").test()
+command! AlphaPrintCurrentLine lua require("test").ligatures()
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
