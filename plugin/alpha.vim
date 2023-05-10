@@ -3,7 +3,7 @@ if exists("g:loaded_alpha") | finish | endif "prevent loading file twice
 let s:save_cpo = &cpo 
 set cpo&vim
 
-command! AlphaHelloWorld lua require("ligatures").test()
+command! AlphaHelloWorld lua require("ligatures").dbg()
 command! LigLine lua require("ligatures").lig_line()
 command! LigWord lua require("ligatures").lig_word()
 
