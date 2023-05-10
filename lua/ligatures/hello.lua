@@ -1,4 +1,8 @@
-local M = {}
+local M = {
+  custom_word_map = {
+    { "o", "0" }
+  }
+}
 
 local api = vim.api
 
@@ -15,24 +19,23 @@ function M.test()
   print("Hello, world")
 end
 
-local ligature_symbol = {
-  ligatures = {
-    "->",
-    "=>",
-
-  },
-  symbols = {
-    "→",
-    "⇒"
-  }
+local word_replace_map = {
+  { "->", "→", },
+  { "=>", "⇒" }
 }
+
+local function join_tables(t1, t2)
+  for i = 1, #t2 do
+    table.insert(t1, t2[i])
+  end
+end
 
 ---Converts ligeraturs in current line
 function M.lig_line()
   local line = api.nvim_get_current_line()
-
-  for i = 1, #ligature_symbol.ligatures do
-    line = line.gsub(line, ligature_symbol.ligatures[i], ligature_symbol.symbols[i])
+  local word_repl_map = join_tables(word_replace_map, M.custom_word_map)
+  for i = 1, #word_replace_map do
+    line = line.gsub(line, word_replace_map[i][1], word_replace_map[i][2])
   end
 
   local r, _ = unpack(api.nvim_win_get_cursor(0))
@@ -45,9 +48,9 @@ function M.lig_word()
   local r, _ = unpack(api.nvim_win_get_cursor(0))
   local line = api.nvim_get_current_line()
 
-  for i = 1, #ligature_symbol.ligatures do
-    if string.find(line, ligature_symbol.ligatures[i]) then
-      line = string.gsub(line, ligature_symbol.ligatures[i], ligature_symbol.symbols[i], 1)
+  for i = 1, #word_replace_map do
+    if string.find(line, word_replace_map[i][1]) then
+      line = string.gsub(line, word_replace_map[i][1], word_replace_map[i][2], 1)
       break
     end
   end
