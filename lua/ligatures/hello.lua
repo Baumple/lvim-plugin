@@ -57,4 +57,5 @@ function M.lig_word()
   replace_line(line, r)
 end
 
+-- -> --=>
 return M
