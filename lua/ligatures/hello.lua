@@ -28,6 +28,11 @@ function M:join_maps()
     table.insert(self.word_replace_map, self.custom_word_map[i])
   end
   self.custom_word_map = nil
+
+  table.sort(self.word_replace_map, function(a, b)
+    return a[1]:len() > b[1]:len()
+  end)
+  dbg(self.word_replace_map)
 end
 
 ---Converts ligeraturs in current line
@@ -35,9 +40,11 @@ function M.lig_line()
   local line = api.nvim_get_current_line()
 
   M:join_maps()
-  print(dump(M.word_replace_map))
+
   for i = 1, #M.word_replace_map do
-    line = line.gsub(line, M.word_replace_map[i][1], M.word_replace_map[i][2])
+    line = string.gsub(line, M.word_replace_map[i][1],
+      " " .. M.word_replace_map[i][2] .. " ",
+      1)
   end
 
   local r, _ = unpack(api.nvim_win_get_cursor(0))
@@ -53,12 +60,20 @@ function M.lig_word()
   M:join_maps()
 
   for i = 1, #M.word_replace_map do
-    if string.find(line, M.word_replace_map[i][1]) then
-      line = string.gsub(line, M.word_replace_map[i][1], M.word_replace_map[i][2], 1)
+    if string.find(line, M.word_replace_map[i][1]) ~= nil then
+      print(M.word_replace_map[i][1])
+      line = string.gsub(line, M.word_replace_map[i][1],
+        1)
       break
     end
   end
   replace_line(line, r)
 end
 
+function dbg(x)
+  print("'" .. dump(x) .. "'")
+  return x
+end
+
+--  :>
 return M
