@@ -7,6 +7,11 @@ local M = {
   custom_word_map = nil
 }
 
+local function dbg(x)
+  print("'" .. dump(x) .. "'")
+  return x
+end
+
 local api = vim.api
 
 ---Replaces a line at given row with the text
@@ -43,7 +48,7 @@ function M.lig_line()
 
   for i = 1, #M.word_replace_map do
     line = string.gsub(line, M.word_replace_map[i][1],
-      " " .. M.word_replace_map[i][2] .. " ",
+      M.word_replace_map[i][2],
       1)
   end
 
@@ -68,11 +73,6 @@ function M.lig_word()
     end
   end
   replace_line(line, r)
-end
-
-function dbg(x)
-  print("'" .. dump(x) .. "'")
-  return x
 end
 
 --  :>
