@@ -48,8 +48,7 @@ function M.lig_line()
 
   for i = 1, #M.word_replace_map do
     line = string.gsub(line, M.word_replace_map[i][1],
-      M.word_replace_map[i][2],
-      1)
+      M.word_replace_map[i][2])
   end
 
   local r, _ = unpack(api.nvim_win_get_cursor(0))
