@@ -2,7 +2,7 @@ require("ligatures.util")
 local M = {
   word_replace_map = {
     { "->", "→", },
-    { "=>", "⇒" }
+    { "=>", "⇒" },
   },
   custom_word_map = nil
 }
@@ -37,11 +37,10 @@ function M:join_maps()
   table.sort(self.word_replace_map, function(a, b)
     return a[1]:len() > b[1]:len()
   end)
-  dbg(self.word_replace_map)
 end
 
 ---Converts ligeraturs in current line
-function M.lig_line()
+function M.lig_line(lines)
   local line = api.nvim_get_current_line()
 
   M:join_maps()
@@ -55,6 +54,10 @@ function M.lig_line()
 
   replace_line(line, r)
   vim.api.nvim_buf_set_lines(0, r - 1, r, false, { line })
+end
+
+function M.lig_lines(lines)
+  print(dump(lines))
 end
 
 function M.lig_word()
@@ -74,5 +77,4 @@ function M.lig_word()
   replace_line(line, r)
 end
 
---  :>
 return M

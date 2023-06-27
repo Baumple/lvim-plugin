@@ -4,7 +4,7 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 command! AlphaHelloWorld lua require("ligatures").dbg()
-command! LigLine lua require("ligatures").lig_line()
+command! -range LigLine lua require("ligatures").lig_line({<line1>, <line2>})
 command! LigWord lua require("ligatures").lig_word()
 
 lua require("ligatures").custom_word_map = { { "-->", "!>" }}
